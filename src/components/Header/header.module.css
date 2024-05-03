@@ -1,0 +1,7 @@
+@import url('../../colors.css');
+.header {
+    width: 100%;
+    height: 150px;
+    background-color: var(--dark-primary-color);
+    padding: 40px 80px;
+}
