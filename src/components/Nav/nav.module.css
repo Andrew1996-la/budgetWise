@@ -1,0 +1,11 @@
+.navList {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    a {
+        color: var(--light-primary-color);
+        text-decoration: none;
+    }
+}
