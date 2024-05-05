@@ -1,0 +1,27 @@
+/* for text */
+.quattrocento-regular {
+    font-family: 'Quattrocento', serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.quattrocento-bold {
+    font-family: 'Quattrocento', serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* for headers */
+.oswald-regular {
+    font-family: 'Oswald', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.oswald-bold {
+    font-family: 'Oswald', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+}
