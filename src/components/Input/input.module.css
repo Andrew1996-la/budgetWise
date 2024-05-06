@@ -1,0 +1,14 @@
+@import url('../../fonts.css');
+
+.input {
+    margin-left: 12px; /*delete this*/
+    height: 40px;
+    width: 160px;
+    border: none;
+    padding: 5px 12px;
+    border: 4px;
+    background: none;
+    border-bottom: 1px solid var(--primary-color);
+    font-size: 16px;
+    color: var(--primary-color);
+}

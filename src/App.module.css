@@ -1,0 +1,10 @@
+@import url('./colors.css');
+
+.main {
+    position: absolute;
+    top: 150px;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    background-color: var(--light-primary-color);
+}
