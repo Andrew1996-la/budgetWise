@@ -1,0 +1,7 @@
+@import url('../../colors.css');
+
+.header {
+    text-align: center;
+    color: var(--dark-primary-color);
+    font-size: 30px;
+}
