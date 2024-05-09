@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import classes from './button.module.css';
 
-interface IButton {
+interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     children: string;
     callback?: () => void;
 }

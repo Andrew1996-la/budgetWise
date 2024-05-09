@@ -6,3 +6,22 @@
     gap: 20px;
     align-items: end;
 }
+
+.input {
+    height: 40px;
+    width: 100%;
+    border: none;
+    padding: 5px 12px;
+    border: 4px;
+    background: none;
+    border-bottom: 1px solid var(--primary-color);
+    font-size: 16px;
+    color: var(--primary-color);
+}
+
+.warning {
+    text-align: center;
+    width: 100%;
+    font-size: 13px;
+    color: #be0e0e;
+}
