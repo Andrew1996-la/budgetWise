@@ -1,13 +1,17 @@
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { setTokenThunk } from '../../store/authorizationSlice';
 import Button from '../Button/Button';
 import classes from './form.module.css';
+import { AppDispatch } from '../../store/store';
 
 interface IForm {
     isLoginForm: boolean;
 }
 
 const Form: FC<IForm> = ({ isLoginForm }) => {
+    const dispatch: AppDispatch = useDispatch();
     const placeholder = isLoginForm ? 'login' : 'register';
 
     const {
@@ -17,7 +21,7 @@ const Form: FC<IForm> = ({ isLoginForm }) => {
     } = useForm();
 
     const onSubmit: SubmitHandler<Record<string, string>> = (data) => {
-        console.log(data);
+        dispatch(setTokenThunk(data));
     };
 
     return (
@@ -26,9 +30,9 @@ const Form: FC<IForm> = ({ isLoginForm }) => {
                 className={classes.input}
                 placeholder={`enter ${placeholder}`}
                 type='text'
-                {...register(placeholder, { required: true })}
+                {...register('email', { required: true })}
             />
-            {errors.placeholder && (
+            {errors.email && (
                 <span className={classes.warning}>This field is required</span>
             )}
 
