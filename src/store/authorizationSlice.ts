@@ -1,12 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { setErrorMessage } from '../utils';
 import { BASE_URL, COMMAND_ID } from './const';
 
 interface IInitialState {
     token: string;
+    error: undefined | string;
 }
 
 const initialState: IInitialState = {
     token: localStorage.getItem('token') || '',
+    error: undefined,
 };
 
 export const setTokenThunk = createAsyncThunk(
@@ -27,10 +30,6 @@ export const setTokenThunk = createAsyncThunk(
                 body: JSON.stringify(body),
             });
 
-            if (!response.ok) {
-                throw new Error('Failed to fetch authorization');
-            }
-
             return await response.json();
         } catch (error) {
             console.error(error);
@@ -46,8 +45,20 @@ const authorizationSlice = createSlice({
         builder.addCase(
             setTokenThunk.fulfilled,
             (state: IInitialState, action) => {
-                state.token = action.payload.token;
-                localStorage.setItem('token', action.payload.token);
+                if (action.payload.errors) {
+                    const error = action.payload.errors[0];
+                    state.error = setErrorMessage(error.name);
+                } else {
+                    state.token = action.payload.token;
+                    state.error = undefined;
+                    localStorage.setItem('token', action.payload.token);
+                }
+            }
+        );
+        builder.addCase(
+            setTokenThunk.rejected,
+            (state: IInitialState, action) => {
+                state.error = action.error.name;
             }
         );
     },

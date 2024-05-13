@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setTokenThunk } from '../../store/authorizationSlice';
+import { AppDispatch, RootState } from '../../store/store';
 import Button from '../Button/Button';
 import classes from './form.module.css';
-import { AppDispatch } from '../../store/store';
 
 interface IForm {
     isLoginForm: boolean;
@@ -13,6 +13,7 @@ interface IForm {
 const Form: FC<IForm> = ({ isLoginForm }) => {
     const dispatch: AppDispatch = useDispatch();
     const placeholder = isLoginForm ? 'login' : 'register';
+    const serverError = useSelector((store: RootState) => store.authorizationSlice.error);
 
     const {
         register,
@@ -35,7 +36,9 @@ const Form: FC<IForm> = ({ isLoginForm }) => {
             {errors.email && (
                 <span className={classes.warning}>This field is required</span>
             )}
-
+            {serverError && (
+                <span className={classes.warning}>{serverError}</span>
+            )}
             <input
                 className={classes.input}
                 placeholder='enter password'
