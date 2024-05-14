@@ -5,6 +5,7 @@ import { setTokenThunk } from '../../store/authorizationSlice';
 import { AppDispatch, RootState } from '../../store/store';
 import Button from '../Button/Button';
 import classes from './form.module.css';
+import { useNavigate } from 'react-router';
 
 interface IForm {
     isLoginForm: boolean;
@@ -12,8 +13,10 @@ interface IForm {
 
 const Form: FC<IForm> = ({ isLoginForm }) => {
     const dispatch: AppDispatch = useDispatch();
+    const navigate = useNavigate();
     const placeholder = isLoginForm ? 'login' : 'register';
     const serverError = useSelector((store: RootState) => store.authorizationSlice.error);
+    const token = useSelector((store: RootState) => store.authorizationSlice.token);
 
     const {
         register,
@@ -23,6 +26,9 @@ const Form: FC<IForm> = ({ isLoginForm }) => {
 
     const onSubmit: SubmitHandler<Record<string, string>> = (data) => {
         dispatch(setTokenThunk(data));
+        if(token) {
+            navigate("/")
+        }
     };
 
     return (
