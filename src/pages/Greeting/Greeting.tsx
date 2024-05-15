@@ -1,19 +1,23 @@
+import { useState } from 'react';
 import Form from '../../components/Form/Form';
 import GreetingLogo from '../../components/GreetingLogo/GreetingLogo';
 import GreetingSignUp from '../../components/GreetingSignUp/GreetingSignUp';
 import classes from './greeting.module.css';
 
 const Greeting = () => {
-    const isLoginFrom = false;
+    const [isLoginForm, setIsLoginForm] = useState(true);
+    const toggleForm = () => {
+        setIsLoginForm(!isLoginForm);
+    }
 
     return (
         <>
             <GreetingLogo />
             <h2 className={classes.header}>
-                {isLoginFrom ? 'SignIn' : 'SignUp'}
+                {isLoginForm ? 'SignIn' : 'SignUp'}
             </h2>
-            <Form isLoginForm={isLoginFrom} />
-            <GreetingSignUp isLoginFrom={isLoginFrom} />
+            <Form isLoginForm={isLoginForm} />
+            <GreetingSignUp toggleForm={toggleForm} isLoginFrom={isLoginForm} />
         </>
     );
 };

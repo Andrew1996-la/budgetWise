@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { setTokenThunk } from '../../store/authorizationSlice';
+import { signIn, signUp } from '../../store/authorizationSlice';
 import { AppDispatch, RootState } from '../../store/store';
 import Button from '../Button/Button';
 import classes from './form.module.css';
@@ -26,7 +26,10 @@ const Form: FC<IForm> = ({ isLoginForm }) => {
     } = useForm();
 
     const onSubmit: SubmitHandler<Record<string, string>> = async (data) => {
-        await dispatch(setTokenThunk(data));
+        isLoginForm
+            ? await dispatch(signIn(data))
+            : await dispatch(signUp(data));
+
         const token = localStorage.getItem('token');
         if (token) {
             navigate('/');
