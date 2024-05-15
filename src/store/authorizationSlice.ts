@@ -3,12 +3,12 @@ import { setErrorMessage } from '../utils';
 import { BASE_URL, COMMAND_ID } from './const';
 
 interface IInitialState {
-    token: string;
+    token: undefined | string;
     error: undefined | string;
 }
 
 const initialState: IInitialState = {
-    token: localStorage.getItem('token') || '',
+    token: localStorage.getItem('token') || undefined,
     error: undefined,
 };
 
@@ -40,7 +40,11 @@ export const setTokenThunk = createAsyncThunk(
 const authorizationSlice = createSlice({
     name: 'authorization',
     initialState,
-    reducers: {},
+    reducers: {
+        removeToken: (state: IInitialState) => {
+            state.token = undefined;
+        },
+    },
     extraReducers: (builder) => {
         builder.addCase(
             setTokenThunk.fulfilled,
@@ -63,5 +67,7 @@ const authorizationSlice = createSlice({
         );
     },
 });
+
+export const { removeToken } = authorizationSlice.actions;
 
 export default authorizationSlice.reducer;

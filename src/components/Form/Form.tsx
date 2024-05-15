@@ -1,11 +1,11 @@
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 import { setTokenThunk } from '../../store/authorizationSlice';
 import { AppDispatch, RootState } from '../../store/store';
 import Button from '../Button/Button';
 import classes from './form.module.css';
-import { useNavigate } from 'react-router';
 
 interface IForm {
     isLoginForm: boolean;
@@ -15,8 +15,9 @@ const Form: FC<IForm> = ({ isLoginForm }) => {
     const dispatch: AppDispatch = useDispatch();
     const navigate = useNavigate();
     const placeholder = isLoginForm ? 'login' : 'register';
-    const serverError = useSelector((store: RootState) => store.authorizationSlice.error);
-    const token = useSelector((store: RootState) => store.authorizationSlice.token);
+    const serverError = useSelector(
+        (store: RootState) => store.authorizationSlice.error
+    );
 
     const {
         register,
@@ -24,10 +25,11 @@ const Form: FC<IForm> = ({ isLoginForm }) => {
         formState: { errors },
     } = useForm();
 
-    const onSubmit: SubmitHandler<Record<string, string>> = (data) => {
-        dispatch(setTokenThunk(data));
-        if(token) {
-            navigate("/")
+    const onSubmit: SubmitHandler<Record<string, string>> = async (data) => {
+        await dispatch(setTokenThunk(data));
+        const token = localStorage.getItem('token');
+        if (token) {
+            navigate('/');
         }
     };
 
