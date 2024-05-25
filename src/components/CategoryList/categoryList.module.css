@@ -1,0 +1,30 @@
+.categoryBlock {
+    padding: 20px 0;
+}
+
+.categoryHeader {
+    color: var(--primary-text);
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.categoryList {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.categoryItem {
+    padding: 6px 12px;
+    background-color: var(--primary-color);
+    border-radius: 6px;
+    color: var(--light-primary-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close {
+    cursor: pointer;
+    margin-left: 5px;
+}
