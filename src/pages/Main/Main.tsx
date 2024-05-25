@@ -1,10 +1,29 @@
+import { FC, useState } from 'react';
+import ButtonGroup from '../../components/ButtonGroup/ButtonGroup';
+import ModalWindow from '../../components/ModalWindow/ModalWindow';
 import Operation from '../../components/Operation/Operation';
-import styles from './main.module.css';
 
-const Main = () => {
+const Main: FC = () => {
+    const [isShow, setIsShow] = useState(false);
+    const [modalContent, setModalContent] = useState<JSX.Element | null>(null);
+
+    const openModal = (content: JSX.Element) => {
+        setIsShow(true);
+        setModalContent(content);
+    };
+
+    const closeModal = () => {
+        setIsShow(false);
+    };
+
     return (
         <>
-            <button className={styles.newOperationBtn}>new operation</button>
+            {isShow && (
+                <ModalWindow closeModal={() => setIsShow(false)}>
+                    {modalContent}
+                </ModalWindow>
+            )}
+            <ButtonGroup openModal={openModal} closeModal={closeModal} />
             <Operation />
         </>
     );

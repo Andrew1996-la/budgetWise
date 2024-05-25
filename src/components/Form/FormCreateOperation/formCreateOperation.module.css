@@ -1,0 +1,18 @@
+.form {
+    gap: 15px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.input {
+    height: 40px;
+    width: 100%;
+    border: none;
+    padding: 5px 12px;
+    border: 4px;
+    background: none;
+    border-bottom: 1px solid var(--primary-color);
+    font-size: 16px;
+    color: var(--primary-color);
+}
