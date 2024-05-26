@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import ButtonGroup from '../../components/ButtonGroup/ButtonGroup';
 import CategoryList from '../../components/CategoryList/CategoryList';
 import ModalWindow from '../../components/ModalWindow/ModalWindow';
-import Operation from '../../components/Operation/Operation';
+import OperationList from '../../components/OperationList/OperatonList';
 
 const Main: FC = () => {
     const [isShow, setIsShow] = useState(false);
@@ -26,7 +26,7 @@ const Main: FC = () => {
             )}
             <ButtonGroup openModal={openModal} closeModal={closeModal} />
             <CategoryList openModal={openModal} closeModal={closeModal} />
-            <Operation />
+            <OperationList />
         </>
     );
 };

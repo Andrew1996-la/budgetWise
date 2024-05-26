@@ -39,6 +39,25 @@ export const createOperationThunk = createAsyncThunk(
     }
 );
 
+export const getOperationThunk = createAsyncThunk(
+    'operationSlice/getOperationThunk',
+    async () => {
+        const token = localStorage.getItem('token');
+        try {
+            const response = fetch(`${BASE_URL}/operations`, {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            return (await response).json();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+);
+
 const operationSlice = createSlice({
     name: 'operationSlice',
     initialState,
@@ -48,6 +67,12 @@ const operationSlice = createSlice({
             createOperationThunk.fulfilled,
             (state: IInitialState, action) => {
                 state.operationList.push(action.payload);
+            }
+        );
+        builder.addCase(
+            getOperationThunk.fulfilled,
+            (state: IInitialState, action) => {
+                state.operationList = action.payload.data;
             }
         );
     },

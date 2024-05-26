@@ -1,0 +1,11 @@
+.operationHeader {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.operationList {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}

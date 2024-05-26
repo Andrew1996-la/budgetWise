@@ -48,8 +48,6 @@ const FormCreateOperation: FC<IFormCreateOperation> = ({ closeModal }) => {
             <select
                 {...register('type')}
                 className={styles.input}
-                name='OperationType'
-                id='operationType'
             >
                 <option value='Cost'>Cost</option>
                 <option value='Profit'>Profit</option>
