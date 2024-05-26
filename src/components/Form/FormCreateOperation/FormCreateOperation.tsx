@@ -1,7 +1,13 @@
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
-import { BASE_URL } from '../../../store/const';
+import { useDispatch } from 'react-redux';
+import {
+    createOperationThunk,
+    IOperation,
+} from '../../../store/operationSlice';
+import { AppDispatch } from '../../../store/store';
 import Button from '../../Button/Button';
+import SelectCategory from '../../Select/SelectCategory/SelectCategory';
 import styles from './formCreateOperation.module.css';
 
 interface IFormCreateOperation {
@@ -10,28 +16,11 @@ interface IFormCreateOperation {
 
 const FormCreateOperation: FC<IFormCreateOperation> = ({ closeModal }) => {
     const { register, handleSubmit } = useForm();
+    const dispatch: AppDispatch = useDispatch();
 
-    const onSubmit = async (data) => {
-        const token = localStorage.getItem('token');
-        // data.date = new Date().toISOString();
-        data.date = '2023-09-19T10:37:16.389+00:00';
-        data.categoryId = '123';
-        const amount = Number(data.amount);
-        data.amount = amount;
-        try {
-            const response = await fetch(`${BASE_URL}/operations`, {
-                method: 'POST',
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            });
-
-            return await response.json();
-        } catch (error) {
-            console.error(error);
-        }
+    const onSubmit = async (data: IOperation) => {
+        data.date = new Date().toISOString();
+        dispatch(createOperationThunk(data));
         closeModal();
     };
 
@@ -65,7 +54,7 @@ const FormCreateOperation: FC<IFormCreateOperation> = ({ closeModal }) => {
                 <option value='Cost'>Cost</option>
                 <option value='Profit'>Profit</option>
             </select>
-
+            <SelectCategory register={register} />
             <Button type='submit'>Save</Button>
         </form>
     );
