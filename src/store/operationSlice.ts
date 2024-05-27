@@ -9,6 +9,13 @@ export interface IOperation {
     date: string;
     type: 'Profit' | 'Cost';
     categoryId: string;
+    category: {
+        commandId: string;
+        createdAt: string;
+        id: string;
+        name: string;
+        updatedAt: string;
+    };
 }
 
 interface IInitialState {
@@ -74,6 +81,29 @@ export const removeOperationThunk = createAsyncThunk(
     }
 );
 
+export const editOperationThunk = createAsyncThunk(
+    'operationSlice/editOperationThunk',
+    async ({
+        operationId,
+        data,
+    }: {
+        operationId: string | undefined;
+        data: IOperation;
+    }) => {
+        const token = localStorage.getItem('token');
+
+        const response = await fetch(`${BASE_URL}/operations/${operationId}`, {
+            method: 'PATCH',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+        return await response.json();
+    }
+);
+
 const operationSlice = createSlice({
     name: 'operationSlice',
     initialState,
@@ -98,7 +128,18 @@ const operationSlice = createSlice({
                     (opearation) => opearation.categoryId !== action.payload
                 );
             }
-        )
+        );
+        builder.addCase(
+            editOperationThunk.fulfilled,
+            (state: IInitialState, action) => {
+                const index = state.operationList.findIndex(
+                    (opearation) => opearation.id === action.payload.id
+                );
+                if (index !== -1) {
+                    state.operationList[index] = action.payload;
+                }
+            }
+        );
     },
 });
 

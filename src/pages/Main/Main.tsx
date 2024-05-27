@@ -26,7 +26,7 @@ const Main: FC = () => {
             )}
             <ButtonGroup openModal={openModal} closeModal={closeModal} />
             <CategoryList openModal={openModal} closeModal={closeModal} />
-            <OperationList />
+            <OperationList openModal={openModal} closeModal={closeModal}/>
         </>
     );
 };

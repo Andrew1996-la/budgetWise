@@ -6,6 +6,7 @@ import {
     removeOperationThunk,
 } from '../../store/operationSlice';
 import { AppDispatch } from '../../store/store';
+import FormCreateOperation from '../Form/FormCreateOperation/FormCreateOperation';
 import styles from './operation.module.css';
 
 interface IOperationProps {
@@ -16,6 +17,9 @@ interface IOperationProps {
     date: string;
     categoryId: string;
     id: string;
+    category: string;
+    openModal: (content: JSX.Element) => void;
+    closeModal: () => void;
 }
 
 const Operation: FC<IOperationProps> = ({
@@ -24,8 +28,10 @@ const Operation: FC<IOperationProps> = ({
     date,
     name,
     desc,
-    categoryId,
     id,
+    openModal,
+    closeModal,
+    category,
 }) => {
     const dispatch: AppDispatch = useDispatch();
     const utcMoment = moment.utc(date);
@@ -37,8 +43,21 @@ const Operation: FC<IOperationProps> = ({
         dispatch(getOperationThunk());
     };
 
+    const editOperation = () => {
+        openModal(
+            <FormCreateOperation
+                operationId={id}
+                closeModal={closeModal}
+                isEdit
+                operationName={name}
+                opearationDescr={desc}
+                operationType={operationType}
+                operactionAmount={amount}
+            />
+        );
+    };
     return (
-        <div className={styles.operation}>
+        <div onDoubleClick={editOperation} className={styles.operation}>
             <div className={styles.operationWrapper}>
                 <div className={styles.operationInfo}>
                     <div className={styles.operationType}>
@@ -55,6 +74,7 @@ const Operation: FC<IOperationProps> = ({
                     </div>
                 </div>
                 <div>Operation name: {name}</div>
+                <div>Operation category: {category}</div>
                 <div>{desc && `Operation description: ${desc}`}</div>
                 <div className={styles.operationSum}>Sum: {amount} &#8381;</div>
             </div>
