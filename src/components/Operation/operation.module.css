@@ -30,3 +30,9 @@
     color: rgb(241, 48, 48);
     font-size: 20px;
 }
+
+.del {
+    margin-left: 15px;
+    cursor: pointer;
+    scale: 1.3;
+}

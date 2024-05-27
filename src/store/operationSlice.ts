@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { BASE_URL } from './const';
 
 export interface IOperation {
+    id: any;
     name: string;
     desc?: string;
     amount: number;
@@ -58,6 +59,21 @@ export const getOperationThunk = createAsyncThunk(
     }
 );
 
+export const removeOperationThunk = createAsyncThunk(
+    'operationSlice/removeOperationThunk',
+    async (id: string) => {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`${BASE_URL}/operations/${id}`, {
+            method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        return await response.json();
+    }
+);
+
 const operationSlice = createSlice({
     name: 'operationSlice',
     initialState,
@@ -75,6 +91,14 @@ const operationSlice = createSlice({
                 state.operationList = action.payload.data;
             }
         );
+        builder.addCase(
+            removeOperationThunk.fulfilled,
+            (state: IInitialState, action) => {
+                state.operationList = state.operationList.filter(
+                    (opearation) => opearation.categoryId !== action.payload
+                );
+            }
+        )
     },
 });
 
