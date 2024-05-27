@@ -39,7 +39,7 @@ const FormCreateOperation: FC<IFormCreateOperation> = ({
         opearationDescr ? opearationDescr : ''
     );
     const [operationAmountState, setOperationAmountState] = useState(
-        operactionAmount ? operactionAmount : 0
+        operactionAmount ? operactionAmount : ''
     );
     const [operationTypeState, setOperationTypeState] = useState(
         operationType ? operationType : 'Profit'
