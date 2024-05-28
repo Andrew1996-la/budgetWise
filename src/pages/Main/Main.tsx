@@ -1,32 +1,18 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import ButtonGroup from '../../components/ButtonGroup/ButtonGroup';
 import CategoryList from '../../components/CategoryList/CategoryList';
-import ModalWindow from '../../components/ModalWindow/ModalWindow';
 import OperationList from '../../components/OperationList/OperatonList';
+import useModal from '../../customHooks';
 
 const Main: FC = () => {
-    const [isShow, setIsShow] = useState(false);
-    const [modalContent, setModalContent] = useState<JSX.Element | null>(null);
-
-    const openModal = (content: JSX.Element) => {
-        setIsShow(true);
-        setModalContent(content);
-    };
-
-    const closeModal = () => {
-        setIsShow(false);
-    };
+    const { Modal, openModal, closeModal } = useModal();
 
     return (
         <>
-            {isShow && (
-                <ModalWindow closeModal={() => setIsShow(false)}>
-                    {modalContent}
-                </ModalWindow>
-            )}
+            {Modal}
             <ButtonGroup openModal={openModal} closeModal={closeModal} />
             <CategoryList openModal={openModal} closeModal={closeModal} />
-            <OperationList openModal={openModal} closeModal={closeModal}/>
+            <OperationList openModal={openModal} closeModal={closeModal} />
         </>
     );
 };

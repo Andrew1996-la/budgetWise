@@ -1,15 +1,15 @@
 import { useSelector } from 'react-redux';
-import Button from '../../components/Button/Button';
-import FormEditProfile from '../../components/Form/FormEditProfile/FormEditProfile';
-import ProfileInfo from '../../components/ProfileInfo/ProfileInfo';
-import useModal from '../../customHooks';
+import FormEditProfile from '../Form/FormEditProfile/FormEditProfile';
 import { RootState } from '../../store/store';
+import useModal from '../../customHooks';
+import Button from '../Button/Button';
 
-const Profile = () => {
+const ProfileControllers = () => {
+    const { openModal, closeModal } = useModal();
+
     const nickName = useSelector(
         (state: RootState) => state.authorizationSlice.profile.name
     );
-    const { Modal, openModal, closeModal } = useModal();
 
     const setNickName = () => {
         openModal(<FormEditProfile closeModal={closeModal} />);
@@ -26,16 +26,14 @@ const Profile = () => {
     };
 
     return (
-        <div>
-            {Modal}
-            <ProfileInfo />
+        <>
             <Button>change pass</Button>
             {!nickName && (
                 <Button callback={setNickName}>set nickName profile</Button>
             )}
             <Button callback={editProfile}>edit profile</Button>
-        </div>
+        </>
     );
 };
 
-export default Profile;
+export default ProfileControllers

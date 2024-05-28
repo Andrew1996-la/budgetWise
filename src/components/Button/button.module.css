@@ -1,7 +1,7 @@
 @import url('../../colors.css');
 
 .button {
-    width: 110px;
+    width: auto;
     height: 40px;
     padding: 5px 12px;
     background-color: var(--primary-color);
