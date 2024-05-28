@@ -9,5 +9,5 @@
     background-color: var(--dark-primary-color);
     color: var(--light-primary-color);
     font-size: 20px;
-    grid-template-columns: 10fr 1fr;
+    grid-template-columns: 1fr 10fr 80px;
 }
