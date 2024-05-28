@@ -1,12 +1,18 @@
+import { FC } from 'react';
 import { useSelector } from 'react-redux';
-import FormEditProfile from '../Form/FormEditProfile/FormEditProfile';
 import { RootState } from '../../store/store';
-import useModal from '../../customHooks';
 import Button from '../Button/Button';
+import FormEditProfile from '../Form/FormEditProfile/FormEditProfile';
 
-const ProfileControllers = () => {
-    const { openModal, closeModal } = useModal();
+interface IProfileController {
+    openModal: (content: JSX.Element) => void;
+    closeModal: () => void;
+}
 
+const ProfileControllers: FC<IProfileController> = ({
+    closeModal,
+    openModal,
+}) => {
     const nickName = useSelector(
         (state: RootState) => state.authorizationSlice.profile.name
     );
@@ -36,4 +42,4 @@ const ProfileControllers = () => {
     );
 };
 
-export default ProfileControllers
+export default ProfileControllers;
