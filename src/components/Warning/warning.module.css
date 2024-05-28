@@ -1,0 +1,11 @@
+.warning {
+    display: flex;
+    flex-direction: column;
+    padding: 0 300px;
+    gap: 20px;
+}
+
+.warningHeader {
+    text-align: center;
+    margin-top: 50px;
+}
