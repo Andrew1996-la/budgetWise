@@ -2,7 +2,9 @@ import { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import Button from '../Button/Button';
+import FormChangePassword from '../Form/FormChangePassword/FormChangePassword';
 import FormEditProfile from '../Form/FormEditProfile/FormEditProfile';
+import styles from './profileControllers.module.css';
 
 interface IProfileController {
     openModal: (content: JSX.Element) => void;
@@ -31,14 +33,18 @@ const ProfileControllers: FC<IProfileController> = ({
         );
     };
 
+    const changePassword = () => {
+        openModal(<FormChangePassword closeModal={closeModal} />);
+    };
+
     return (
-        <>
-            <Button>change pass</Button>
+        <div className={styles.profileController}>
+            <Button callback={changePassword}>change pass</Button>
             {!nickName && (
                 <Button callback={setNickName}>set nickName profile</Button>
             )}
             <Button callback={editProfile}>edit profile</Button>
-        </>
+        </div>
     );
 };
 

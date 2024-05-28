@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProfile } from '../../store/authorizationSlice';
 import { AppDispatch, RootState } from '../../store/store';
+import styles from './profileInfo.module.css'
 
 const ProfileInfo = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -26,10 +27,10 @@ const ProfileInfo = () => {
     }, []);
 
     return (
-        <div>
-            {nickName!.length > 0 ? <div>nickName: {nickName}</div> : null}
-            <div>email: {email}</div>
-            <div>signUp Date: {localTimeStr}</div>
+        <div className={styles.profileInfo}>
+            {nickName!.length > 0 ? <div>Nickname: {nickName}</div> : null}
+            <div>Email: {email}</div>
+            <div>SignUp date: {localTimeStr}</div>
         </div>
     );
 };

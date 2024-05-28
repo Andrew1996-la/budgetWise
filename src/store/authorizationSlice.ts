@@ -9,6 +9,7 @@ interface IInitialState {
         name?: string;
         email: string;
         signUpDate: string;
+        password: string;
     };
 }
 
@@ -19,6 +20,7 @@ const initialState: IInitialState = {
         name: '',
         email: '',
         signUpDate: '',
+        password: '',
     },
 };
 
@@ -39,11 +41,10 @@ export const getProfile = createAsyncThunk(
 
 export const setNickNameProfile = createAsyncThunk(
     'authorization/setNickNameProfile',
-    async function () {
+    async function (name) {
         const token = localStorage.getItem('token');
-        //нужно передавать сюда name
         const body = {
-            name: '',
+            name: name,
         };
         const response = await fetch(`${BASE_URL}/profile`, {
             method: 'POST',
@@ -67,6 +68,27 @@ export const editNickNameProfile = createAsyncThunk(
         };
         const response = await fetch(`${BASE_URL}/profile`, {
             method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(body),
+        });
+
+        return await response.json();
+    }
+);
+
+export const changePassword = createAsyncThunk(
+    'authorization/changePassword',
+    async function ({ password, newPassword }) {
+        const token = localStorage.getItem('token');
+        const body = {
+            password: password,
+            newPassword: newPassword,
+        };
+        const response = await fetch(`${BASE_URL}/profile/change-password`, {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`,
@@ -180,6 +202,12 @@ const authorizationSlice = createSlice({
             editNickNameProfile.fulfilled,
             (state: IInitialState, action) => {
                 state.profile.name = action.payload.name;
+            }
+        );
+        builder.addCase(
+            changePassword.fulfilled,
+            (state: IInitialState, action) => {
+                state.profile.password = action.payload.password;
             }
         );
     },

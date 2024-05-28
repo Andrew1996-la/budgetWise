@@ -34,13 +34,13 @@ const FormEditProfile: FC<IFormEditProfile> = ({
         if (isEdit && nickNameState) {
             dispatch(editNickNameProfile(nickNameState));
         } else {
-            dispatch(setNickNameProfile());
+            dispatch(setNickNameProfile(nickNameState));
         }
         closeModal();
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
             <h3 className={styles.formHeader}>
                 {isEdit ? 'Edit nickname' : 'Create nickname'}
             </h3>
