@@ -12,10 +12,14 @@ export type Category = {
 
 interface IInitialState {
     category: Category[];
+    error: null | string;
+    loading: boolean;
 }
 
 const initialState: IInitialState = {
     category: [],
+    error: null,
+    loading: false,
 };
 
 export const createCategoryThunk = createAsyncThunk(
@@ -110,9 +114,16 @@ const categorySlice = createSlice({
         builder.addCase(
             getCategoryThunk.fulfilled,
             (state: IInitialState, action) => {
+                state.loading = false;
                 state.category = action.payload.data;
             }
         );
+        builder.addCase(getCategoryThunk.pending, (state: IInitialState) => {
+            state.loading = true;
+        });
+        builder.addCase(getCategoryThunk.rejected, (state: IInitialState) => {
+            state.loading = false;
+        });
         builder.addCase(
             removeCategoryThunk.fulfilled,
             (state: IInitialState, action) => {

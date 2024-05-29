@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { BASE_URL } from './const';
 
 export interface IOperation {
-    id: any;
+    id: string;
     name: string;
     desc?: string;
     amount: number;
@@ -20,10 +20,14 @@ export interface IOperation {
 
 interface IInitialState {
     operationList: IOperation[];
+    error: null | string;
+    loading: boolean;
 }
 
 const initialState: IInitialState = {
     operationList: [],
+    error: null,
+    loading: false,
 };
 
 export const createOperationThunk = createAsyncThunk(
@@ -118,9 +122,17 @@ const operationSlice = createSlice({
         builder.addCase(
             getOperationThunk.fulfilled,
             (state: IInitialState, action) => {
+                state.loading = false;
                 state.operationList = action.payload.data;
             }
         );
+        builder.addCase(getOperationThunk.pending, (state: IInitialState) => {
+            state.loading = true;
+        });
+        builder.addCase(getOperationThunk.rejected, (state: IInitialState) => {
+            state.loading = false;
+        });
+
         builder.addCase(
             removeOperationThunk.fulfilled,
             (state: IInitialState, action) => {

@@ -11,6 +11,8 @@ interface IInitialState {
         signUpDate: string;
         password: string;
     };
+    errorStatus: null | string;
+    loadingStatus: boolean;
 }
 
 const initialState: IInitialState = {
@@ -22,6 +24,8 @@ const initialState: IInitialState = {
         signUpDate: '',
         password: '',
     },
+    errorStatus: null,
+    loadingStatus: false,
 };
 
 export const getProfile = createAsyncThunk(
@@ -187,11 +191,18 @@ const authorizationSlice = createSlice({
         builder.addCase(
             getProfile.fulfilled,
             (state: IInitialState, action) => {
+                state.loadingStatus = false;
                 state.profile.email = action.payload.email;
                 state.profile.signUpDate = action.payload.signUpDate;
                 state.profile.name = action.payload.name;
             }
         );
+        builder.addCase(getProfile.pending, (state: IInitialState) => {
+            state.loadingStatus = true;
+        });
+        builder.addCase(getProfile.rejected, (state: IInitialState) => {
+            state.loadingStatus = false;
+        });
         builder.addCase(
             setNickNameProfile.fulfilled,
             (state: IInitialState, action) => {

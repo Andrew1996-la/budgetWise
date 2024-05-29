@@ -7,6 +7,7 @@ import {
 } from '../../store/categorySlice';
 import { AppDispatch, RootState } from '../../store/store';
 import FormCreateCategory from '../Form/FormCreateCategory/FormCreateCategory';
+import Loading from '../Loading/Loading';
 import styles from './categoryList.module.css';
 
 interface ICategoruList {
@@ -18,6 +19,9 @@ const CategoryList: FC<ICategoruList> = ({ openModal, closeModal }) => {
     const dispatch: AppDispatch = useDispatch();
     const categoryList = useSelector(
         (store: RootState) => store.categorySlice.category
+    );
+    const loading = useSelector(
+        (state: RootState) => state.categorySlice.loading
     );
 
     const removeCategory = (id: string) => {
@@ -38,6 +42,10 @@ const CategoryList: FC<ICategoruList> = ({ openModal, closeModal }) => {
     useEffect(() => {
         dispatch(getCategoryThunk());
     }, [dispatch]);
+
+    if (loading) {
+        return <Loading />;
+    }
 
     return (
         <div className={styles.categoryBlock}>

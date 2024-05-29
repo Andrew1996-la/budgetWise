@@ -2,6 +2,7 @@ import { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOperationThunk, IOperation } from '../../store/operationSlice';
 import { AppDispatch, RootState } from '../../store/store';
+import Loading from '../Loading/Loading';
 import Operation from '../Operation/Operation';
 import style from './operationList.module.css';
 
@@ -16,9 +17,18 @@ const OperationList: FC<IOperationList> = ({ openModal, closeModal }) => {
         (state: RootState) => state.operationSlice.operationList
     );
 
+    const loading = useSelector(
+        (state: RootState) => state.operationSlice.loading
+    );
+
     useEffect(() => {
         dispatch(getOperationThunk());
     }, []);
+
+    if (loading) {
+        return <Loading />;
+    }
+
     return (
         <div>
             {operationList.length > 0 && (
