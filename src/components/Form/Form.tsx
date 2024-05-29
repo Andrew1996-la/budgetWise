@@ -47,9 +47,6 @@ const Form: FC<IForm> = ({ isLoginForm }) => {
             {errors.email && (
                 <span className={classes.warning}>This field is required</span>
             )}
-            {serverError && (
-                <span className={classes.warning}>{serverError}</span>
-            )}
             <input
                 className={classes.input}
                 placeholder='enter password'
@@ -58,6 +55,9 @@ const Form: FC<IForm> = ({ isLoginForm }) => {
             />
             {errors.password && (
                 <span className={classes.warning}>This field is required</span>
+            )}
+            {serverError && (
+                <span className={classes.warning}>{serverError}</span>
             )}
 
             <Button type='submit'>{isLoginForm ? 'Login' : 'Register'}</Button>

@@ -30,7 +30,11 @@ const FormCreateOperation: FC<IFormCreateOperation> = ({
     opearationDescr,
     operactionAmount,
 }) => {
-    const { register, handleSubmit } = useForm();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
     const dispatch: AppDispatch = useDispatch();
     const [operationNameState, setOperationNameState] = useState(
         operationName ? operationName : ''
@@ -69,6 +73,9 @@ const FormCreateOperation: FC<IFormCreateOperation> = ({
                 placeholder='enter operation name'
                 type='text'
             />
+            {errors.name && (
+                <span className={styles.warning}>This field is required</span>
+            )}
             <input
                 value={operationDescrState}
                 {...register('desc', {
@@ -91,6 +98,9 @@ const FormCreateOperation: FC<IFormCreateOperation> = ({
                 placeholder='enter operation amount'
                 type='number'
             />
+            {errors.amount && (
+                <span className={styles.warning}>This field is required</span>
+            )}
             <select
                 value={operationTypeState}
                 {...register('type')}
