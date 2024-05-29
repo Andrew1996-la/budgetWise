@@ -10,7 +10,7 @@ const Main: FC = () => {
     const token = localStorage.getItem('token');
 
     if (!token) {
-        return <Warning />;
+        return <Warning>To create transactions, you need to register</Warning>;
     }
 
     return (

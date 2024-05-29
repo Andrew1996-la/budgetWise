@@ -1,8 +1,13 @@
 import { useNavigate } from 'react-router';
 import Button from '../Button/Button';
 import styles from './warning.module.css';
+import { FC } from 'react';
 
-const Warning = () => {
+interface IWarning {
+    children: string
+}
+
+const Warning: FC<IWarning> = ({children}) => {
     const navigate = useNavigate();
     const handleNavigate = () => {
         navigate('/greeting');
@@ -11,7 +16,7 @@ const Warning = () => {
     return (
         <div className={styles.warning}>
             <h2 className={styles.warningHeader}>
-                to create transactions, you need to register
+                {children}
             </h2>
             <Button callback={handleNavigate}>Registration</Button>
         </div>
