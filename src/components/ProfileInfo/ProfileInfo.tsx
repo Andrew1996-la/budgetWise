@@ -37,7 +37,7 @@ const ProfileInfo = () => {
 
     return (
         <div className={styles.profileInfo}>
-            {nickName!.length > 0 ? <div>Nickname: {nickName}</div> : null}
+            {nickName ? <div>Nickname: {nickName}</div> : null}
             <div>Email: {email}</div>
             <div>SignUp date: {localTimeStr}</div>
         </div>
