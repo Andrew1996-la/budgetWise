@@ -1,11 +1,13 @@
+import { unwrapResult } from '@reduxjs/toolkit';
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
     editNickNameProfile,
     setNickNameProfile,
 } from '../../../store/authorizationSlice';
-import { AppDispatch } from '../../../store/store';
+import { AppDispatch, RootState } from '../../../store/store';
+import { setErrorMessage } from '../../../utils';
 import Button from '../../Button/Button';
 import styles from './formEditProfile.module.css';
 
@@ -30,13 +32,23 @@ const FormEditProfile: FC<IFormEditProfile> = ({
         formState: { errors },
     } = useForm();
 
-    const onSubmit = () => {
+    const err = useSelector(
+        (state: RootState) => state.authorizationSlice.errorStatus
+    );
+
+    const onSubmit = async () => {
+        let resultAction;
+
         if (isEdit && nickNameState) {
-            dispatch(editNickNameProfile(nickNameState));
+            resultAction = await dispatch(editNickNameProfile(nickNameState));
         } else {
-            dispatch(setNickNameProfile(nickNameState));
+            resultAction = await dispatch(setNickNameProfile(nickNameState));
         }
-        closeModal();
+        const result = unwrapResult(resultAction);
+
+        if (!result.error) {
+            closeModal();
+        }
     };
 
     return (
@@ -54,6 +66,9 @@ const FormEditProfile: FC<IFormEditProfile> = ({
                 placeholder='write profile nickname'
                 type='text'
             />
+            {err && (
+                <span className={styles.warning}>{setErrorMessage(err)}</span>
+            )}
             {errors.nickname && (
                 <span className={styles.warning}>this fiels is required</span>
             )}

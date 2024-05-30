@@ -50,36 +50,55 @@ export const setNickNameProfile = createAsyncThunk(
         const body = {
             name: name,
         };
-        const response = await fetch(`${BASE_URL}/profile`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(body),
-        });
+        try {
+            const response = await fetch(`${BASE_URL}/profile`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(body),
+            });
 
-        return await response.json();
+            if (!response.ok) {
+                const errorData = await response.json();
+                return errorData;
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error(error);
+        }
     }
 );
 
 export const editNickNameProfile = createAsyncThunk(
     'authorization/editNickNameProfile',
-    async function (name) {
+    async function (name, { rejectWithValue }) {
         const token = localStorage.getItem('token');
         const body = {
             name: name,
         };
-        const response = await fetch(`${BASE_URL}/profile`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(body),
-        });
 
-        return await response.json();
+        try {
+            const response = await fetch(`${BASE_URL}/profile`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(body),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                return rejectWithValue(errorData);
+            }
+
+            return await response.json();
+        } catch (error) {
+            return rejectWithValue(error);
+        }
     }
 );
 
@@ -213,6 +232,13 @@ const authorizationSlice = createSlice({
             editNickNameProfile.fulfilled,
             (state: IInitialState, action) => {
                 state.profile.name = action.payload.name;
+                state.errorStatus = null;
+            }
+        );
+        builder.addCase(
+            editNickNameProfile.rejected,
+            (state: IInitialState, action) => {
+                state.errorStatus = action.payload.errors[0].extensions.code;
             }
         );
         builder.addCase(
